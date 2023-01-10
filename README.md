@@ -3,6 +3,12 @@
 
 A tool for those who (like me) spend a lot of time looking for useless things on OLX (a kind of Brazilian craigslist)
 
+After dedicating a few good hours to studies related to Web Scraping, Groovy with its various libraries and building APIs with Spring, I decided to improve one of the projects proposed in the process of selecting internships at ZG Soluções.
+
+When it was presented to me, the project, which was relatively simple, was a Web Scraper of ads published on the OLX website (https://www.olx.com.br), running locally and saving the ads found in a spreadsheet at the end of its execution. My proposal for improvement concerns the construction of an API using Spring, where the user informs the title of the advertisement and the state of Brazil in which it is located and then executes the request, in order to obtain the response that consists of several information such as average price of the searched ad, cheapest ad, most expensive ad, number of ads found and finally, a vast list of ads containing their title, value, address and URL.
+
+Reviews and suggestions are always welcome.
+
 ## Main URL:
 https://olx-scraper.herokuapp.com
 
