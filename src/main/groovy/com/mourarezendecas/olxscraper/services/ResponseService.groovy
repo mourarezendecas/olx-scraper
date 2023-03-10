@@ -85,7 +85,6 @@ class ResponseService {
         for(Element advertisement : adList ){
             ItemModel itemModel = new ItemModel()
 
-            //Collect title
             try{
                 itemModel.title = advertisement.getElementsByTag('h2').first().text()
             }catch(e)
@@ -93,7 +92,6 @@ class ResponseService {
                 e.printStackTrace()
             }
 
-            //Collect value
             if(advertisement.getElementsByClass('sc-1kn4z61-1 dGMPPn').first().text()=='')
             {
                 itemModel.value = 0
@@ -107,14 +105,12 @@ class ResponseService {
                 }
             }
 
-            //Collect address
             try{
                 itemModel.address = advertisement.getElementsByClass('sc-1c3ysll-0 lfQETj').first().text()
             }catch(e){
                 e.printStackTrace()
             }
 
-            //Collect URL
             try {
                 itemModel.adURL = advertisement.getElementsByTag('a').attr('href')
             }catch(e)
