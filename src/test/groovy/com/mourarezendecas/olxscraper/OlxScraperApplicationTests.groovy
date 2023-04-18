@@ -7,6 +7,7 @@ import com.mourarezendecas.olxscraper.services.ResponseService
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue;
 
 
@@ -41,5 +42,26 @@ class OlxScraperApplicationTests {
 	void 'quando a busca é valida, ela retorna uma lista de anuncios maior que zero'(){
 		GroovyObject actualOutput = ResponseService.scrape(new RequestModel(validSearch))
 		assertTrue(actualOutput.adAmount > 0)
+	}
+
+	@Test
+	void 'Testa refine do titulo'(){
+		String actualOutput = ResponseService.refineTitle("Iphone XR")
+		String actualExpected = "IPHONEXR"
+		assertEquals(actualOutput,actualExpected)
+	}
+
+	@Test
+	void 'verifica se titulo do anuncio eh valido'(){
+		String searchTitle = ResponseService.refineTitle('Iphone XR')
+		String adTitle = 'IPHONEXR64GB-PARAREPOSIÇÃODEPEÇAS'
+		assertTrue(ResponseService.isAdvertisingTitleValid(adTitle,searchTitle))
+	}
+
+	@Test
+	void 'titulo do anuncio nao eh valido'(){
+		String searchTitle = ResponseService.refineTitle('Harman Kardon')
+		String adTitle = 'BMWX53.0XDRIVE45EMSPORTHYBRID394CV2022'
+		assertFalse(ResponseService.isAdvertisingTitleValid(adTitle,searchTitle))
 	}
 }
