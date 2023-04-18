@@ -23,6 +23,14 @@ class ResponseService {
         collect(requestModel)
     }
 
+    static String refineTitle(String title){
+        return title.replace(" ","").toUpperCase()
+    }
+
+    static Boolean isAdvertisingTitleValid(String adTitle, String searchTitle){
+        return adTitle.findAll(searchTitle)
+    }
+
     static def collect(RequestModel requestModel){
         ResponseModel responseModel = new ResponseModel()
 
@@ -84,44 +92,45 @@ class ResponseService {
 
         for(Element advertisement : adList ){
             ItemModel itemModel = new ItemModel()
+            String refinedTitle
 
             try{
                 itemModel.title = advertisement.getElementsByTag('h2').first().text()
+                refinedTitle = refineTitle(itemModel.title)
             }catch(e)
             {
                 e.printStackTrace()
             }
 
-            if(advertisement.getElementsByClass('sc-1kn4z61-1 dGMPPn').first().text()=='')
-            {
-                itemModel.value = 0
-            }
-            else{
+            if(isAdvertisingTitleValid(refinedTitle, refineTitle(searchTitle))) {
+
+                if (advertisement.getElementsByClass('sc-1kn4z61-1 dGMPPn').first().text() == '') {
+                    itemModel.value = 0
+                } else {
+                    try {
+                        itemModel.value = priceToDouble(advertisement.getElementsByClass('sc-1kn4z61-1 dGMPPn').first().text())
+                    } catch (e) {
+                        e.printStackTrace()
+                    }
+                }
+
                 try {
-                    itemModel.value = priceToDouble(advertisement.getElementsByClass('sc-1kn4z61-1 dGMPPn').first().text())
-                }catch(e)
-                {
+                    itemModel.address = advertisement.getElementsByClass('sc-1c3ysll-0 lfQETj').first().text()
+                } catch (e) {
                     e.printStackTrace()
                 }
-            }
 
-            try{
-                itemModel.address = advertisement.getElementsByClass('sc-1c3ysll-0 lfQETj').first().text()
-            }catch(e){
-                e.printStackTrace()
-            }
+                try {
+                    itemModel.adURL = advertisement.getElementsByTag('a').attr('href')
+                } catch (e) {
+                    e.printStackTrace()
+                }
 
-            try {
-                itemModel.adURL = advertisement.getElementsByTag('a').attr('href')
-            }catch(e)
-            {
-                e.printStackTrace()
-            }
-
-            try{
-                itemModelList.add(itemModel)
-            }catch(e){
-                e.printStackTrace()
+                try {
+                    itemModelList.add(itemModel)
+                } catch (e) {
+                    e.printStackTrace()
+                }
             }
 
         }
