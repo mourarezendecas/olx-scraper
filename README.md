@@ -22,7 +22,7 @@ https://olx-scraper.herokuapp.com
 #### Main requisition
 
 ```http
-  POST /search
+  POST /item
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
